@@ -1,0 +1,5 @@
+"","rej_1","rej_5","rej_10"
+"FPCR encompasses the moments-based model",0.125,0.28125,0.328125
+"The moments-based model encompasses FPCR",0.125,0.21875,0.296875
+"Both models encompass each other",0,0.015625,0.0625
+"Both models do not encompass each other",0.75,0.484375,0.3125
