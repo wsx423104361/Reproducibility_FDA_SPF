@@ -36,7 +36,7 @@ The main contents of the repository are the following:
 ## Instructions
 All file paths are relative to the root of the reproducibility package. Please set your working directory accordingly, or open the `.Rproj` file using RStudio. Please follow the instructions below to run different scripts to generate relevant figures and tables.
 
-* `Plot_Den_QLD.m`: to generate `Figure 1` (Note that the densities and LQDs are obtained in the R script `Baseline.R`, and Matlab is used to generate the 3-D plot of Figure 1)
+* `Plot_Den_QLD.m`: to generate `Figure 1` (Note that the densities and LQDs are obtained in the R script `Main.R`, and Matlab is used to generate the 3-D plot of Figure 1)
 * `Main.R`: to generate `Figures 2-6` and `Table 1-19`
 
 ## Data availability and provenance

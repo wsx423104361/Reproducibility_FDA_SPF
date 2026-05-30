@@ -47,6 +47,18 @@ nH <- length(Hname)
 
 # Obtain Density Curves for Figure 1 ------------------------------------------------
 nDate <- length(UniDate)
+Density <- list()
+npoint0 <- 512
+for (t in 1:nDate){
+  qtr <- UniDate[t]
+  CPI.qtr <- subset(CPI, Date %in% qtr)
+  Density$plus1[[t]] <- density(CPI.qtr$plus1, bw = "nrd0", from=-5, to=10, n = npoint0, na.rm=TRUE) %>% normalize.density # Note: this setting is for a better visualization of the density curves
+}
+
+Density$plus1 <- matrix(unlist(Density$plus1),npoint0,nDate) 
+write.table(Density$plus1, "Data/Density_h1.csv", sep = ",", col.names = FALSE, row.names = FALSE)
+
+# Obtain LQD Curves for Figure 1 ------------------------------------------------
 npoint <- 512/2
 bw.choice <- "nrd0" # SJ; nrd0
 lqdSup <- seq(0, 1, length.out = npoint)
@@ -84,6 +96,7 @@ for (t in 1:nDate){
     Density[[hname]][['Curv']][[t]] <- trapz(lqdSup, c(0,0,diff(diff(Density[[hname]][['lqd']][[t]])))^2)
   }
 }
+write.table(Density[['plus1']]$lqd, "Data/LQD_h1.csv", sep = ",", col.names = FALSE, row.names = FALSE)
 
 # Table 1 Descriptive Statistics -------------------------------------
 DS.CPI <- cal.DS(CPI,nDate,UniDate)
@@ -177,9 +190,7 @@ Curv.plus4 <- unlist(Density[['plus4']][['Curv']])
 Curv.pool <- c(Curv.plus1, Curv.plus2, Curv.plus3, Curv.plus4)
 
 Oil.pool <- rep(External$Oil, times = 4)
-Oil_Pct.pool <- rep(External$Oil_Pct, times = 4)
 Lab.pool <- rep(External$LabourCost, times = 4)
-Lab_Pct.pool <- rep(External$LabourCost_Pct, times = 4)
 
 # Table 2
 EFPC.Cor <- matrix(nrow = 8, ncol = 3)
@@ -269,7 +280,7 @@ Fig06 <- Res.DF %>%
   ggplot( aes(x=key, y=value, fill=key)) +
   geom_boxplot() +
   scale_fill_viridis(discrete = TRUE, alpha=0.6) +
-  geom_jitter(color="black", size=0.4, alpha=0.9) +
+  geom_jitter(color="black", size=0.4, alpha=0.9, position = position_jitter(seed = 123)) +
   theme_ipsum() +
   theme(
     legend.position="none",
